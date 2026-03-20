@@ -5,6 +5,7 @@
 * **********************************************************************/
 
 //Simulando o resultado de uma API 
+
 var listaDeEstados = { 
     pais: 'Brasil',
     estados: 
@@ -22500,3 +22501,4 @@ var listaDeEstados = {
     ]
 }
 
+module.exports = listaDeEstados;
