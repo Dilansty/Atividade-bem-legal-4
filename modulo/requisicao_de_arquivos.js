@@ -5,28 +5,36 @@
  * Versão: 1.0 
  ********************************************************/
 
+//import da biblioteca da API
 const listaDeEstados = require('./estados_cidades.js')
 
-
+// função para listar os estados brasileiros
 const getListaDeEstados = function () {
+    //array vazio para dar o input dos dados na logica
     let estados = []
-
+//estrutura de repetição que percorre a API para buscar e dar push das UFs no JSON
     listaDeEstados.estados.forEach(function (estado) {
         estados.push(estado.sigla)
     })
+    //Return com a estrutura do JSON guardando a info da API
     return {
         uf: estados,
         quantidade: estados.sigla
     }
 }
 
+//função para mostrar os dados do estado
 const getDadosEstado = function (uf) {
+    //variaveis do status para return e guardar o JSON
     let retorno
     let status = false
 
+    //Estrutura de repetição que percorre a todos os estados da API  
     listaDeEstados.estados.forEach(function (descricaoEstado) {
+        //condicional para comparar input com info da sigla do estado da API
         if (String(descricaoEstado.sigla).toUpperCase() == String(uf).toUpperCase()) {
             status = true
+            //Estruturação do JSON com as informações que preciso da API 
             retorno = {
                 uf: descricaoEstado.sigla,
                 descricao: descricaoEstado.nome,
@@ -36,16 +44,23 @@ const getDadosEstado = function (uf) {
             
         }
     })
+    //return do status e do JSON
     return status ? retorno : false
 }
 
+//função para mostrar as capitais do estado
 const getCapitalEstados = function (uf) {
+     //variaveis do status para return e guardar o JSON
     let capitalDescrita
     let status = false
 
+     //Estrutura de repetição que percorre a todos os estados da API  
     listaDeEstados.estados.forEach(function (pesquisaUF) {
+
+        //condicional para comparar input com info da regiao da API
         if (String(pesquisaUF.sigla).toUpperCase() == String(uf).toUpperCase()) {
             status = true
+            //Estruturação do JSON com as informações que preciso da API 
             capitalDescrita = {
                 uf: pesquisaUF.sigla,
                 descricao: pesquisaUF.nome,
@@ -55,9 +70,11 @@ const getCapitalEstados = function (uf) {
 
 
     })
+    //return do status e do JSON
     return status ? capitalDescrita : false
 }
 
+//função para mostrar os estados das regioes selecionadas
 function getEstadosRegiao(regiao) {
     let infoPorRegiao = { regiao: regiao, estados: [] }
     let status = false
@@ -80,7 +97,7 @@ function getEstadosRegiao(regiao) {
     // return após percorrer todos os estados
     return status ? infoPorRegiao : false
 }
-
+//função para mostrar as capitais do pais ao longo da história
 const getCapitalPais = function (){
     let infoCapital = { capitais: [] }
     let status = false
@@ -109,8 +126,7 @@ const getCapitalPais = function (){
     return status ? infoCapital : false
     
 }
-
-
+// função para mostrar cidades do estado selecionado
 function getCidades (estadoBusca){
     // objeto de retorno
     let retorno = {}
@@ -149,7 +165,7 @@ function getCidades (estadoBusca){
 
 
 
-
+// export das funções
 module.exports = {
     getCapitalEstados,
     getCapitalPais,
@@ -159,10 +175,3 @@ module.exports = {
     getListaDeEstados
 }
 
-
-    console.log(getCidades('rj'))
-    console.log(getCapitalPais())
-    console.log(getEstadosRegiao('sul'))
-    console.log(getListaDeEstados())
-    console.log(getDadosEstado('sp'))
-    console.log(getCapitalEstados('al'))
