@@ -11,7 +11,7 @@ const listaDeEstados = require('./estados_cidades.js')
 const getListaDeEstados = function () {
     let estados = []
 
-    getListaDeEstados.estados.forEach(function (estado) {
+    listaDeEstados.estados.forEach(function (estado) {
         estados.push(estado.sigla)
     })
     return {
@@ -22,23 +22,24 @@ const getListaDeEstados = function () {
 
 const getDadosEstado = function (uf) {
     let retorno
+    let status = false
 
     listaDeEstados.estados.forEach(function (descricaoEstado) {
-        if (descricaoEstado.sigla == uf) {
+        if (String(descricaoEstado.sigla).toUpperCase() == String(uf).toUpperCase()) {
+            status = true
             retorno = {
                 uf: descricaoEstado.sigla,
                 descricao: descricaoEstado.nome,
                 capital: descricaoEstado.capital,
                 regiao: descricaoEstado.regiao
             }
+            
         }
     })
-    return retorno
-
+    return status ? retorno : false
 }
 
-const getCapitalEstados = function () {
-    let uf = `SP`
+const getCapitalEstados = function (uf) {
     let capitalDescrita
     let status = false
 
@@ -54,7 +55,7 @@ const getCapitalEstados = function () {
 
 
     })
-    return capitalDescrita
+    return status ? capitalDescrita : false
 }
 
 function getEstadosRegiao(regiao) {
@@ -65,7 +66,7 @@ function getEstadosRegiao(regiao) {
     for (let estado of listaDeEstados.estados) {
 
         //acessa a propriedade 'regiao' do objeto estado
-        if (estado.regiao.toUpperCase() == regiao.toUpperCase()) {
+        if (String(estado.regiao).toUpperCase() == String(regiao).toUpperCase()) {
             status = true
 
             //usa a variável correta do loop
@@ -77,7 +78,7 @@ function getEstadosRegiao(regiao) {
     }
 
     // return após percorrer todos os estados
-    return infoPorRegiao
+    return status ? infoPorRegiao : false
 }
 
 const getCapitalPais = function (){
@@ -90,7 +91,7 @@ const getCapitalPais = function (){
         if (capitalPais.capital_pais) {
             status = true
 
-            //usa a variável correta do loop
+            
             infoCapital.capitais.push({
                 uf:                         capitalPais.sigla,
                 descricao:                  capitalPais.nome,
@@ -99,38 +100,69 @@ const getCapitalPais = function (){
                 capital_pais_ano_inicio:    capitalPais.capital_pais.ano_inicio, 
                 capital_pais_ano_fim:       capitalPais.capital_pais.ano_fim
             })
+           
         }
+       
+        
+        
     }
-
-    return infoCapital
-}
-
-const getCidades = function(){
-    let selecaoEstado = 'sao_paulo'
+    return status ? infoCapital : false
     
-    let totalCidades = {cidades:[]}
-    let status = false
+}
 
-    for(let cidadeDoEstado of listaDeEstados.estados){
-        if(cidadeDoEstado.nome.toUpperCase() == selecaoEstado.toUpperCase() || cidadeDoEstado.regiao.toUpperCase() == selecaoEstado.toUpperCase()){
-            totalCidades.cidades.push({
-                uf: cidadeDoEstado.regiao,
-                descricao: cidadeDoEstado.nome,
-                quantidade_cidades: listaDeEstados.estados.length,
-                cidades: cidadeDoEstado.cidades
-            })
+
+function getCidades (estadoBusca){
+    // objeto de retorno
+    let retorno = {}
+
+    // vetor que recebe as cidades 
+    let cidade   = []
+
+    // contador pra saber a quantidade de cidades
+    let contador = 0
+    let status   = false
+    
+    //percorre o vetor estado  
+    for(let estados of listaDeEstados.estados){
+
+        //condicional para verificar se a busca é coerente
+        if(String(estados.sigla).toUpperCase() ==  String(estadoBusca).toUpperCase()) {
+            
+            for( let cidadeCont of estados.cidades){
+                cidade.push(cidadeCont.nome)
+                contador++
+            }
+
+            retorno.uf                     =estados.sigla
+            retorno.descricao              =estados.nome
+            retorno.quantidade_cidades     =contador
+            retorno.cidades                =cidade
+
+            status = true
         }
-
-
     }
-    return totalCidades
+
+    if(status){
+        return retorno
+    }else return false 
 }
 
 
 
 
+module.exports = {
+    getCapitalEstados,
+    getCapitalPais,
+    getDadosEstado,
+    getCidades,
+    getEstadosRegiao,
+    getListaDeEstados
+}
 
 
-
-
-    console.log(getCidades())
+    console.log(getCidades('rj'))
+    console.log(getCapitalPais())
+    console.log(getEstadosRegiao('sul'))
+    console.log(getListaDeEstados())
+    console.log(getDadosEstado('sp'))
+    console.log(getCapitalEstados('al'))
