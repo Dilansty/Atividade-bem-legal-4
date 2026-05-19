@@ -27,10 +27,10 @@ Foco no aprendizado em JSON e funções para adiquirir as informações necessá
 ## Critérios de Aceite
 | EndPoint        | Critério   |
 | :---            | :---       |
-| implement-data  | ####none   |
-| search-data     | ####none   |
-| renew-data      | ####none   |
-| exclude-data    | ####none   |
+| implement-data  | N/A   |
+| search-data     | N/A   |
+| renew-data      | N/A   |
+| exclude-data    | N/A   |
 
 ### Descrição do Projeto e principais requisitos
 * #### Projeto para consumo e manipulação de objetos JSON
@@ -57,10 +57,10 @@ Evoluir as habilidades com a programação direcionada ao objeto consumindo a AP
 ### Entregáveis
 |Classificação| EndPoint | Tipo | Metodo http |
 | :--- | :--- | :--- | :--- |
-| API | implement-data | ####none | ####none |
+| API | implement-data | N/A | N/A |
 | API | search-data | READ | GET|
-| API | renew-data | ####none | ####none |
-| API | exclude-data | ####none |####none |
+| API | renew-data | N/A | N/A |
+| API | exclude-data | N/A |N/A |
 
 
 #### Marcos
